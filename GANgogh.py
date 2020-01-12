@@ -30,7 +30,7 @@ ITERS = 200000 # How many iterations to train for
 LAMBDA = 10 # Gradient penalty lambda hyperparameter
 OUTPUT_DIM = 64*64*3 # Number of pixels in each iamge
 CLASSES = 1 #Number of classes, for genres probably 1
-PREITERATIONS = 2000 #Number of preiteration training cycles to run
+PREITERATIONS = 100 #Number of preiteration training cycles to run
 lib.print_model_settings(locals().copy())
 
 def GeneratorAndDiscriminator():
