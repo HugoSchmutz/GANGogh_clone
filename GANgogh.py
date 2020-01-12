@@ -399,7 +399,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             lib.plot.plot('dev real accuracy', _dev_realAccuracy)        
 
 
-        if iteration % 100 == 999:
+        if iteration % 10 == 9:
             generate_image(iteration)
             #Can add generate_good_images method in here if desired
             
