@@ -329,7 +329,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             curLabel= genRandomLabels(BATCH_SIZE,CLASSES,condition=i)
             samples = session.run(all_fixed_noise_samples, feed_dict={sample_labels: curLabel})
             samples = ((samples+1.)*(255.99/2)).astype('int32')
-            lib.save_images.save_images(samples.reshape((BATCH_SIZE, 3, 64, 64)), 'generated/samples_{}_{}.png'.format(str(i), iteration))
+            lib.save_images.save_images(samples.reshape((BATCH_SIZE, 3, 64, 64)), 'generated_bouquets/samples_{}_{}.png'.format(str(i), iteration))
     
     
     
@@ -350,7 +350,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
     _x,_y = next(train_gen())
     _x_r = session.run(real_data, feed_dict={all_real_data_conv: _x})
     _x_r = ((_x_r+1.)*(255.99/2)).astype('int32')
-    lib.save_images.save_images(_x_r.reshape((BATCH_SIZE, 3, 64, 64)), 'generated/samples_groundtruth.png')
+    lib.save_images.save_images(_x_r.reshape((BATCH_SIZE, 3, 64, 64)), 'generated_bouquets/samples_groundtruth.png')
 
 
 
