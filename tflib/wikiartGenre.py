@@ -13,7 +13,7 @@ DIM = 64
 path = os.path.normpath('./preprocess_data/')
 
 #This dictionary should be updated to hold the absolute number of images associated with each genre used during training
-styles = {'fauvisme': 748}
+styles = {'fauvisme': 746}
 
 styleNum = {'fauvisme': 0}
 
