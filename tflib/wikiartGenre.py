@@ -10,14 +10,14 @@ import os
 DIM = 64
 
 #Set your own path to images
-path = os.path.normpath('./preprocess_data/fauvisme/')
+path = os.path.normpath('./preprocess_data/')
 
 #This dictionary should be updated to hold the absolute number of images associated with each genre used during training
-styles = {'fauvism': 748}
+styles = {'fauvisme': 748}
 
-styleNum = {'fauvism': 0}
+styleNum = {'fauvisme': 0}
 
-curPos = {'fauvism': 0}
+curPos = {'fauvisme': 0}
 
 testNums = {}
 trainNums = {}
