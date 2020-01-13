@@ -7,17 +7,17 @@ import time
 import random
 import os
 #Set the dimension of images you want to be passed in to the network
-DIM = 64
+DIM = 128
 
 #Set your own path to images
 path = os.path.normpath('./preprocess_data/')
 
 #This dictionary should be updated to hold the absolute number of images associated with each genre used during training
-styles = {'fauvisme': 748}
+styles = {'bouquets': 312}
 
-styleNum = {'fauvisme': 0}
+styleNum = {'bouquets': 0}
 
-curPos = {'fauvisme': 0}
+curPos = {'bouquets': 0}
 
 testNums = {}
 trainNums = {}
