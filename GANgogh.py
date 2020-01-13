@@ -221,7 +221,7 @@ Generator, Discriminator = GeneratorAndDiscriminator()
             
 with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
-    all_real_data_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE, 3, 128, 128])
+    all_real_data_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE, 3, 64, 64])
     all_real_label_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE,CLASSES])
     
     generated_labels_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE,CLASSES])
