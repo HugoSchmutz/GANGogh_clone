@@ -164,12 +164,12 @@ def kACGANGenerator(n_samples, numClasses, labels, noise=None, dim=DIM, bn=True,
     lib.ops.conv2d.unset_weights_stdev()
     lib.ops.deconv2d.unset_weights_stdev()
     lib.ops.linear.unset_weights_stdev()
-
+    print('Generator:',output.shape)
     return tf.reshape(output, [-1, OUTPUT_DIM]), labels
 
 def kACGANDiscriminator(inputs, numClasses, dim=DIM, bn=True, nonlinearity=LeakyReLU):
     output = tf.reshape(inputs, [-1, 3, 128, 128])
-    print(output.shape)
+    print('Discr:',output.shape)
     lib.ops.conv2d.set_weights_stdev(0.02)
     lib.ops.deconv2d.set_weights_stdev(0.02)
     lib.ops.linear.set_weights_stdev(0.02)
@@ -243,6 +243,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
     for device_index, (device, real_data_conv, real_label_conv) in enumerate(zip(DEVICES, split_real_data_conv, split_real_label_conv)):
         with tf.device(device):
             print(real_data_conv.shape)
+            
             real_data = tf.reshape(2*((tf.cast(real_data_conv, tf.float32)/255.)-.5), [BATCH_SIZE//len(DEVICES), OUTPUT_DIM])
             real_labels = tf.reshape(real_label_conv, [BATCH_SIZE//len(DEVICES), CLASSES])
 
@@ -250,15 +251,10 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             sample_labels = tf.reshape(split_sample_labels_conv, [BATCH_SIZE//len(DEVICES), CLASSES])
                         
             fake_data, fake_labels= Generator(BATCH_SIZE//len(DEVICES), CLASSES, generated_labels)
-            
             #set up discrimnator results
             
             disc_fake,disc_fake_class = Discriminator(fake_data, CLASSES)
             disc_real,disc_real_class = Discriminator(real_data, CLASSES)
-            print('fake data:', real_data.shape)
-            print(disc_fake_class.shape)
-            print('real data:', real_data.shape)
-            print(disc_real_class.shape)
             
             prediction = tf.argmax(disc_fake_class, 1)
             correct_answer = tf.argmax(fake_labels, 1)
