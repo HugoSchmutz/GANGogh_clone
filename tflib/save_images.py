@@ -64,4 +64,4 @@ def save_good_images(X, save_path):
         j = n//nw
         i = n%nw
         img[j*h:j*h+h, i*w:i*w+w] = x
-        imsave(save_path+'{}'.format(n), x)
+        imsave(save_path+'{}.png'.format(n), x)
