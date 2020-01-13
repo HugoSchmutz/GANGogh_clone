@@ -22,7 +22,7 @@ import tflib.plot
 
 
 MODE = 'acwgan' # dcgan, wgan, wgan-gp, lsgan
-DIM = 64 # Model dimensionality
+DIM = 128 # Model dimensionality
 CRITIC_ITERS = 5 # How many iterations to train the critic for
 N_GPUS = 1 # Number of GPUs
 BATCH_SIZE = 84 # Batch size. Must be a multiple of CLASSES and N_GPUS
@@ -255,7 +255,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             
             disc_fake,disc_fake_class = Discriminator(fake_data, CLASSES)
             disc_real,disc_real_class = Discriminator(real_data, CLASSES)
-                
+            print(real_data.shape)
             prediction = tf.argmax(disc_fake_class, 1)
             correct_answer = tf.argmax(fake_labels, 1)
             equality = tf.equal(prediction, correct_answer)
@@ -263,8 +263,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             
             prediction = tf.argmax(disc_real_class, 1)
             correct_answer = tf.argmax(real_labels, 1)
-            print(prediction.shape)
-            print(correct_answer.shape)
+            print(disc_real_class.shape)
             equality = tf.equal(prediction, correct_answer)
             realAccuracy = tf.reduce_mean(tf.cast(equality, tf.float32))
 
