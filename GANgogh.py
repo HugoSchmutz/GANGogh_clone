@@ -168,7 +168,7 @@ def kACGANGenerator(n_samples, numClasses, labels, noise=None, dim=DIM, bn=True,
     return tf.reshape(output, [-1, OUTPUT_DIM]), labels
 
 def kACGANDiscriminator(inputs, numClasses, dim=DIM, bn=True, nonlinearity=LeakyReLU):
-    output = tf.reshape(inputs, [-1, 3, 64, 64])
+    output = tf.reshape(inputs, [-1, 3, 128, 128])
 
     lib.ops.conv2d.set_weights_stdev(0.02)
     lib.ops.deconv2d.set_weights_stdev(0.02)
@@ -257,7 +257,9 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             disc_real,disc_real_class = Discriminator(real_data, CLASSES)
                 
             prediction = tf.argmax(disc_fake_class, 1)
+            print(prediction.shape)
             correct_answer = tf.argmax(fake_labels, 1)
+            print(correct_answer.shape)
             equality = tf.equal(prediction, correct_answer)
             genAccuracy = tf.reduce_mean(tf.cast(equality, tf.float32))
             
