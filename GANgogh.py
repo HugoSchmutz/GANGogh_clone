@@ -257,14 +257,14 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             disc_real,disc_real_class = Discriminator(real_data, CLASSES)
                 
             prediction = tf.argmax(disc_fake_class, 1)
-            print(prediction.shape)
             correct_answer = tf.argmax(fake_labels, 1)
-            print(correct_answer.shape)
             equality = tf.equal(prediction, correct_answer)
             genAccuracy = tf.reduce_mean(tf.cast(equality, tf.float32))
             
             prediction = tf.argmax(disc_real_class, 1)
             correct_answer = tf.argmax(real_labels, 1)
+            print(prediction.shape)
+            print(correct_answer.shape)
             equality = tf.equal(prediction, correct_answer)
             realAccuracy = tf.reduce_mean(tf.cast(equality, tf.float32))
 
