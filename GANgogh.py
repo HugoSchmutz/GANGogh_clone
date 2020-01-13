@@ -26,7 +26,7 @@ DIM = 64 # Model dimensionality
 CRITIC_ITERS = 5 # How many iterations to train the critic for
 N_GPUS = 1 # Number of GPUs
 BATCH_SIZE = 84 # Batch size. Must be a multiple of CLASSES and N_GPUS
-ITERS = 10000 # How many iterations to train for
+ITERS = 2000 # How many iterations to train for
 LAMBDA = 10 # Gradient penalty lambda hyperparameter
 OUTPUT_DIM = 64*64*3 # Number of pixels in each iamge
 CLASSES = 1 #Number of classes, for genres probably 1
@@ -329,14 +329,14 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             curLabel= genRandomLabels(BATCH_SIZE,CLASSES,condition=i)
             samples = session.run(all_fixed_noise_samples, feed_dict={sample_labels: curLabel})
             samples = ((samples+1.)*(255.99/2)).astype('int32')
-            lib.save_images.save_images(samples.reshape((BATCH_SIZE, 3, 64, 64)), 'generated_bouquets/samples_{}.png'.format(iteration))
+            lib.save_images.save_images(samples.reshape((BATCH_SIZE, 3, 64, 64)), 'generated/samples_{}.png'.format(iteration))
     
     def generate_good_images(iteration):
         for i in range(CLASSES):
             curLabel= genRandomLabels(BATCH_SIZE,CLASSES,condition=i)
             samples = session.run(all_fixed_noise_samples, feed_dict={sample_labels: curLabel})
             samples = ((samples+1.)*(255.99/2)).astype('int32')
-            lib.save_images.save_good_images(samples.reshape((BATCH_SIZE, 3, 64, 64)), 'generated_bouquets/bouquets_{}_'.format(iteration))
+            lib.save_images.save_good_images(samples.reshape((BATCH_SIZE, 3, 64, 64)), 'generated/bouquets_{}_'.format(iteration))
     
     
     
@@ -357,7 +357,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
     _x,_y = next(train_gen())
     _x_r = session.run(real_data, feed_dict={all_real_data_conv: _x})
     _x_r = ((_x_r+1.)*(255.99/2)).astype('int32')
-    lib.save_images.save_images(_x_r.reshape((BATCH_SIZE, 3, 64, 64)), 'generated_bouquets/samples_groundtruth.png')
+    lib.save_images.save_images(_x_r.reshape((BATCH_SIZE, 3, 64, 64)), 'generated/samples_groundtruth.png')
 
 
 
