@@ -22,13 +22,13 @@ import tflib.plot
 
 
 MODE = 'acwgan' # dcgan, wgan, wgan-gp, lsgan
-DIM = 64 # Model dimensionality
+DIM = 128 # Model dimensionality
 CRITIC_ITERS = 5 # How many iterations to train the critic for
 N_GPUS = 1 # Number of GPUs
 BATCH_SIZE = 84 # Batch size. Must be a multiple of CLASSES and N_GPUS
 ITERS = 2000 # How many iterations to train for
 LAMBDA = 10 # Gradient penalty lambda hyperparameter
-OUTPUT_DIM = 64*64*3 # Number of pixels in each iamge
+OUTPUT_DIM = 128*128*3 # Number of pixels in each iamge
 CLASSES = 1 #Number of classes, for genres probably 1
 PREITERATIONS = 100 #Number of preiteration training cycles to run
 lib.print_model_settings(locals().copy())
@@ -168,7 +168,7 @@ def kACGANGenerator(n_samples, numClasses, labels, noise=None, dim=DIM, bn=True,
     return tf.reshape(output, [-1, OUTPUT_DIM]), labels
 
 def kACGANDiscriminator(inputs, numClasses, dim=DIM, bn=True, nonlinearity=LeakyReLU):
-    output = tf.reshape(inputs, [-1, 3, 64, 64])
+    output = tf.reshape(inputs, [-1, 3, 128, 128])
 
     lib.ops.conv2d.set_weights_stdev(0.02)
     lib.ops.deconv2d.set_weights_stdev(0.02)
@@ -221,7 +221,7 @@ Generator, Discriminator = GeneratorAndDiscriminator()
             
 with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
-    all_real_data_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE, 3, 64, 64])
+    all_real_data_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE, 3, 128, 128])
     all_real_label_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE,CLASSES])
     
     generated_labels_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE,CLASSES])
@@ -329,7 +329,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             curLabel= genRandomLabels(BATCH_SIZE,CLASSES,condition=i)
             samples = session.run(all_fixed_noise_samples, feed_dict={sample_labels: curLabel})
             samples = ((samples+1.)*(255.99/2)).astype('int32')
-            lib.save_images.save_images(samples.reshape((BATCH_SIZE, 3, 64, 64)), 'generated_bouquets/samples_{}_{}.png'.format(str(i), iteration))
+            lib.save_images.save_images(samples.reshape((BATCH_SIZE, 3, 128, 128)), 'generated_bouquets/samples_{}_{}.png'.format(str(i), iteration))
     
     
     
@@ -350,7 +350,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
     _x,_y = next(train_gen())
     _x_r = session.run(real_data, feed_dict={all_real_data_conv: _x})
     _x_r = ((_x_r+1.)*(255.99/2)).astype('int32')
-    lib.save_images.save_images(_x_r.reshape((BATCH_SIZE, 3, 64, 64)), 'generated_bouquets/samples_groundtruth.png')
+    lib.save_images.save_images(_x_r.reshape((BATCH_SIZE, 3, 128, 128)), 'generated_bouquets/samples_groundtruth.png')
 
 
 
