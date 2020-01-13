@@ -22,13 +22,13 @@ import tflib.plot
 
 
 MODE = 'acwgan' # dcgan, wgan, wgan-gp, lsgan
-DIM = 128 # Model dimensionality
+DIM = 64 # Model dimensionality
 CRITIC_ITERS = 5 # How many iterations to train the critic for
 N_GPUS = 1 # Number of GPUs
 BATCH_SIZE = 84 # Batch size. Must be a multiple of CLASSES and N_GPUS
 ITERS = 2000 # How many iterations to train for
 LAMBDA = 10 # Gradient penalty lambda hyperparameter
-OUTPUT_DIM = 64*64*3 # Number of pixels in each iamge
+OUTPUT_DIM = 128*128*3 # Number of pixels in each iamge
 CLASSES = 1 #Number of classes, for genres probably 1
 PREITERATIONS = 100 #Number of preiteration training cycles to run
 lib.print_model_settings(locals().copy())
