@@ -7,7 +7,7 @@ import time
 import random
 import os
 #Set the dimension of images you want to be passed in to the network
-DIM = 128
+DIM = 64
 
 #Set your own path to images
 path = os.path.normpath('./preprocess_data/')
