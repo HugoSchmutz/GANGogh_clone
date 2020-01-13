@@ -329,14 +329,14 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             curLabel= genRandomLabels(BATCH_SIZE,CLASSES,condition=i)
             samples = session.run(all_fixed_noise_samples, feed_dict={sample_labels: curLabel})
             samples = ((samples+1.)*(255.99/2)).astype('int32')
-            lib.save_images.save_images(samples.reshape((BATCH_SIZE, 3, 64, 64)), 'generated_bouquets/samples_{}.png'.format(str(i), iteration))
+            lib.save_images.save_images(samples.reshape((BATCH_SIZE, 3, 64, 64)), 'generated_bouquets/samples_{}.png'.format(iteration))
     
     def generate_good_images(iteration):
         for i in range(CLASSES):
             curLabel= genRandomLabels(BATCH_SIZE,CLASSES,condition=i)
             samples = session.run(all_fixed_noise_samples, feed_dict={sample_labels: curLabel})
             samples = ((samples+1.)*(255.99/2)).astype('int32')
-            lib.save_images.save_good_images(samples.reshape((BATCH_SIZE, 3, 64, 64)), 'generated_bouquets/bouquets_{}_'.format(str(i), iteration))
+            lib.save_images.save_good_images(samples.reshape((BATCH_SIZE, 3, 64, 64)), 'generated_bouquets/bouquets_{}_'.format(iteration))
     
     
     
