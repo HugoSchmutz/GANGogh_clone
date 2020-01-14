@@ -122,12 +122,12 @@ def kACGANGenerator(n_samples, numClasses, labels, noise=None, dim=DIM, bn=True,
     lib.ops.deconv2d.set_weights_stdev(0.02)
     lib.ops.linear.set_weights_stdev(0.02)
     if noise is None:
-        noise = tf.random_normal([n_samples, 256])
+        noise = tf.random_normal([n_samples, 128])
 
     labels = tf.cast(labels, tf.float32)        
     noise = tf.concat([noise, labels], 1)
 
-    output = lib.ops.linear.Linear('Generator.Input', 256+numClasses, 16*4*4*dim*2, noise) #probs need to recalculate dimensions
+    output = lib.ops.linear.Linear('Generator.Input', 128+numClasses, 16*4*4*dim*2, noise) #probs need to recalculate dimensions
     output = tf.reshape(output, [-1, 16*dim*2, 4, 4])
     if bn:
         output = Batchnorm('Generator.BN1', [0,2,3], output)
