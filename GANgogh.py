@@ -202,6 +202,13 @@ def kACGANDiscriminator(inputs, numClasses, dim=DIM, bn=True, nonlinearity=Leaky
     if bn:
         output = Batchnorm('Discriminator.BN4', [0,2,3], output)
     output = nonlinearity(output)
+    
+    output = lib.ops.conv2d.Conv2D('Discriminator.5', 8*dim, 16*dim, 5, output, stride=2)
+    if bn:
+        output = Batchnorm('Discriminator.BN5', [0,2,3], output)
+    output = nonlinearity(output)
+    print(output.shape)
+    print(4*4*8*dim)
     finalLayer = tf.reshape(output, [-1, 4*4*8*dim])
 
     sourceOutput = lib.ops.linear.Linear('Discriminator.sourceOutput', 4*4*8*dim, 1, finalLayer)
