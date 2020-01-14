@@ -204,8 +204,6 @@ def kACGANDiscriminator(inputs, numClasses, dim=DIM, bn=True, nonlinearity=Leaky
     if bn:
         output = Batchnorm('Discriminator.BN5', [0,2,3], output)
     output = nonlinearity(output)
-    print(output.shape)
-    print(4*4*8*dim)
     finalLayer = tf.reshape(output, [-1, 4*4*16*dim])
 
     sourceOutput = lib.ops.linear.Linear('Discriminator.sourceOutput', 4*4*16*dim, 1, finalLayer)
@@ -266,8 +264,6 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
                         
             fake_data, fake_labels= Generator(BATCH_SIZE//len(DEVICES), CLASSES, generated_labels)
             #set up discrimnator results
-            print(fake_data.shape)
-            print(real_data.shape)
             disc_fake,disc_fake_class = Discriminator(fake_data, CLASSES)
             disc_real,disc_real_class = Discriminator(real_data, CLASSES)
             
