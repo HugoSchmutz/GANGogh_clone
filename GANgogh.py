@@ -148,9 +148,6 @@ def kACGANGenerator(n_samples, numClasses, labels, noise=None, dim=DIM, bn=True,
         output = Batchnorm('Generator.BN3', [0,2,3], output)
     condition = lib.ops.linear.Linear('Generator.cond3', numClasses, 4*16*16*dim*2, labels)
     condition = tf.reshape(condition, [-1, 4*dim*2, 16, 16])
-    print(output.shape)
-    print(condition.shape)
-    print("")
     output = pixcnn_gated_nonlinearity('Generator.nl3', 4*dim,output[:,::2], output[:,1::2], condition[:,::2], condition[:,1::2])
     
     output = lib.ops.deconv2d.Deconv2D('Generator.4', 4*dim, 2*dim*2, 5, output)
@@ -209,11 +206,11 @@ def kACGANDiscriminator(inputs, numClasses, dim=DIM, bn=True, nonlinearity=Leaky
     output = nonlinearity(output)
     print(output.shape)
     print(4*4*8*dim)
-    finalLayer = tf.reshape(output, [-1, 4*4*8*dim])
+    finalLayer = tf.reshape(output, [-1, 4*4*16*dim])
 
-    sourceOutput = lib.ops.linear.Linear('Discriminator.sourceOutput', 4*4*8*dim, 1, finalLayer)
+    sourceOutput = lib.ops.linear.Linear('Discriminator.sourceOutput', 4*4*16*dim, 1, finalLayer)
     
-    classOutput = lib.ops.linear.Linear('Discriminator.classOutput', 4*4*8*dim, numClasses, finalLayer)
+    classOutput = lib.ops.linear.Linear('Discriminator.classOutput', 4*4*16*dim, numClasses, finalLayer)
     
     lib.ops.conv2d.unset_weights_stdev()
     lib.ops.deconv2d.unset_weights_stdev()
