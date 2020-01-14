@@ -262,7 +262,8 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
                         
             fake_data, fake_labels= Generator(BATCH_SIZE//len(DEVICES), CLASSES, generated_labels)
             #set up discrimnator results
-            
+            print(fake_data.shape)
+            print(real_data.shape)
             disc_fake,disc_fake_class = Discriminator(fake_data, CLASSES)
             disc_real,disc_real_class = Discriminator(real_data, CLASSES)
             
