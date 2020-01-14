@@ -171,8 +171,8 @@ def kACGANGenerator(n_samples, numClasses, labels, noise=None, dim=DIM, bn=True,
     output = lib.ops.deconv2d.Deconv2D('Generator.5', 2*dim, dim*2, 5, output)
     if bn:
         output = Batchnorm('Generator.BN5', [0,2,3], output)
-    condition = lib.ops.linear.Linear('Generator.cond4', numClasses, 64*64*dim*2, labels)
-    condition = tf.reshape(condition, [-1, dim, 64, 64])
+    condition = lib.ops.linear.Linear('Generator.cond4', numClasses, 2*64*64*dim*2, labels)
+    condition = tf.reshape(condition, [-1, 2*dim, 64, 64])
     print(output.shape)
     print(condition.shape)
     print("")
