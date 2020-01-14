@@ -122,19 +122,17 @@ def kACGANGenerator(n_samples, numClasses, labels, noise=None, dim=DIM, bn=True,
     lib.ops.deconv2d.set_weights_stdev(0.02)
     lib.ops.linear.set_weights_stdev(0.02)
     if noise is None:
-        noise = tf.random_normal([n_samples, 128])
+        noise = tf.random_normal([n_samples, 256])
 
     labels = tf.cast(labels, tf.float32)        
     noise = tf.concat([noise, labels], 1)
 
-    output = lib.ops.linear.Linear('Generator.Input', 128+numClasses, 16*4*4*dim*2, noise) #probs need to recalculate dimensions
+    output = lib.ops.linear.Linear('Generator.Input', 256+numClasses, 16*4*4*dim*2, noise) #probs need to recalculate dimensions
     output = tf.reshape(output, [-1, 16*dim*2, 4, 4])
     if bn:
         output = Batchnorm('Generator.BN1', [0,2,3], output)
     condition = lib.ops.linear.Linear('Generator.cond1', numClasses, 16*4*4*dim*2, labels,biases=False)
     condition = tf.reshape(condition, [-1, 16*dim*2, 4, 4])
-    print(output.shape)
-    print(condition.shape)
     output = pixcnn_gated_nonlinearity('Generator.nl1', 16*dim, output[:,::2], output[:,1::2], condition[:,::2], condition[:,1::2])
 
 
@@ -143,9 +141,6 @@ def kACGANGenerator(n_samples, numClasses, labels, noise=None, dim=DIM, bn=True,
         output = Batchnorm('Generator.BN2', [0,2,3], output)
     condition = lib.ops.linear.Linear('Generator.cond2', numClasses, 8*8*8*dim*2, labels)
     condition = tf.reshape(condition, [-1, 8*dim*2, 8, 8])
-    print(output.shape)
-    print(condition.shape)
-    print("")
     output = pixcnn_gated_nonlinearity('Generator.nl2', 8*dim,output[:,::2], output[:,1::2], condition[:,::2], condition[:,1::2])
     
     output = lib.ops.deconv2d.Deconv2D('Generator.3', 8*dim, 4*dim*2, 5, output)
@@ -163,9 +158,6 @@ def kACGANGenerator(n_samples, numClasses, labels, noise=None, dim=DIM, bn=True,
         output = Batchnorm('Generator.BN4', [0,2,3], output)
     condition = lib.ops.linear.Linear('Generator.cond4', numClasses, 2*32*32*dim*2, labels)
     condition = tf.reshape(condition, [-1, 2*dim*2, 32, 32])
-    print(output.shape)
-    print(condition.shape)
-    print("")
     output = pixcnn_gated_nonlinearity('Generator.nl4', 2*dim, output[:,::2], output[:,1::2], condition[:,::2], condition[:,1::2])
     
     output = lib.ops.deconv2d.Deconv2D('Generator.5', 2*dim, dim*2, 5, output)
@@ -173,9 +165,6 @@ def kACGANGenerator(n_samples, numClasses, labels, noise=None, dim=DIM, bn=True,
         output = Batchnorm('Generator.BN5', [0,2,3], output)
     condition = lib.ops.linear.Linear('Generator.cond5', numClasses, 1*64*64*dim*2, labels)
     condition = tf.reshape(condition, [-1, 1*dim*2, 64, 64])
-    print(output.shape)
-    print(condition.shape)
-    print("")
     output = pixcnn_gated_nonlinearity('Generator.nl5', dim, output[:,::2], output[:,1::2], condition[:,::2], condition[:,1::2])
     
     output = lib.ops.deconv2d.Deconv2D('Generator.6', dim, 3, 5, output)
