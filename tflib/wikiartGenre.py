@@ -13,7 +13,7 @@ DIM = 128
 path = os.path.normpath('./preprocess_data/')
 
 #This dictionary should be updated to hold the absolute number of images associated with each genre used during training
-styles = {'bouquets': 300}
+styles = {'bouquets': 312}
 
 styleNum = {'bouquets': 0}
 
